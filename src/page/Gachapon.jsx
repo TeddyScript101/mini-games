@@ -7,9 +7,8 @@ export default function Gachapon() {
   const [isSpinning, setIsSpinning] = useState(false);
 
   const handleWheelClick = () => {
-    console.log("spin")
     setIsSpinning(true);
-    setTimeout(() => setIsSpinning(false), 5000); // Match the animation duration
+    setTimeout(() => setIsSpinning(false), 5000);
   };
 
 
@@ -49,7 +48,7 @@ const Container = styled.div`
   max-width:400px;
   flex-direction:column;
   align-items: center;
-  padding: 2rem 0px;
+  padding: 2rem 0px 0px 0px;
 `
 
 const GameTitle = styled.div`

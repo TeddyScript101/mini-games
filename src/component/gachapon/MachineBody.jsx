@@ -1,23 +1,23 @@
 import React from 'react'
 import styled, { keyframes, css } from 'styled-components';
 
+
 export default function MachineBody({ isSpinning }) {
     return (
         <Body>
             <MachineHeadWithLogo>HOMM</MachineHeadWithLogo>
             <GachaArea start='#B0B0B0' end='#505050'>
                 <Window>
-                    <GachaBall size="55px" bottom="0px" left="3px" rotate="3deg" color="#FF6F61">DEAL</GachaBall>
-                    <GachaBall size="55px" bottom="0px"  left="60px" rotate="30deg" color="#2196F3">DEAL</GachaBall>
-                    <GachaBall size="55px" bottom="0px"  left="118px" rotate="160deg" color="#4CAF50">DEAL</GachaBall>
-                    <GachaBall size="55px" bottom="0px" left="175px" rotate="120deg" color="#FFC107">DEAL </GachaBall>
-                    <GachaBall size="55px" bottom="0px" left="232px" rotate="120deg" color="#FF6F61">DEAL </GachaBall>
-                    <GachaBall size="55px" bottom="48px" left="30px" rotate="40deg" color="#FFC107">DEAL</GachaBall>
-                    <GachaBall size="55px" bottom="48px" left="85px" rotate="30deg" color="#2196F3">DEAL</GachaBall>
-                    <GachaBall size="55px" bottom="48px"  left="140px" rotate="160deg" color="#FF6F61">DEAL</GachaBall>
-                    <GachaBall size="55px" bottom="48px" left="200px" rotate="120deg" color="#FFC107">DEAL </GachaBall>
-                    <GachaBall size="55px" bottom="48px" left="200px" rotate="120deg" color="#FFC107">DEAL </GachaBall>
-                    <GachaBall size="55px" bottom="94px" left="170px" rotate="120deg" color="#4CAF50">DEAL </GachaBall>
+                    {BallPositionConfig.map(({ size, bottom, left, rotate, color }, index) => (
+                        <GachaBall
+                            key={index}
+                            size={size}
+                            bottom={bottom}
+                            left={left}
+                            rotate={rotate}
+                            color={color}
+                        >DEAL</GachaBall>
+                    ))}
                 </Window>
                 <InsertCoinsArea>
                     <Circle>
@@ -187,3 +187,17 @@ const Arrow = styled.img`
   left: ${({ left }) => `${left}`};  
   transform-origin: center center; /* Make sure rotation happens around the center */
 `;
+
+const BallPositionConfig = [
+    { size: "55px", bottom: "0px", left: "3px", rotate: "3deg", color: "#FF6F61" },
+    { size: "55px", bottom: "0px", left: "60px", rotate: "30deg", color: "#2196F3" },
+    { size: "55px", bottom: "0px", left: "118px", rotate: "160deg", color: "#4CAF50" },
+    { size: "55px", bottom: "0px", left: "175px", rotate: "120deg", color: "#FFC107" },
+    { size: "55px", bottom: "0px", left: "232px", rotate: "120deg", color: "#FF6F61" },
+    { size: "55px", bottom: "48px", left: "30px", rotate: "40deg", color: "#FFC107" },
+    { size: "55px", bottom: "48px", left: "85px", rotate: "30deg", color: "#2196F3" },
+    { size: "55px", bottom: "48px", left: "140px", rotate: "160deg", color: "#FF6F61" },
+    { size: "55px", bottom: "48px", left: "200px", rotate: "120deg", color: "#FFC107" },
+    { size: "55px", bottom: "94px", left: "170px", rotate: "120deg", color: "#4CAF50" }
+]
+
