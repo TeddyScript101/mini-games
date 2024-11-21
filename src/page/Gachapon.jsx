@@ -14,7 +14,8 @@ export default function Gachapon() {
 
   useEffect(() => {
     setTheme({
-      background: { start: "#5C4033", end: "#3E2723" }
+      background: { start: "#5C4033", end: "#3E2723" },
+      maxDiscount:"50%"
     });
   }, []);
 
@@ -26,7 +27,7 @@ export default function Gachapon() {
     <GradientBackground start={theme.background.start} end={theme.background.end}>
       <Container>
       <GameTitle>GACHAPON</GameTitle>
-      <MachineBody isSpinning={isSpinning}/>
+      <MachineBody isSpinning={isSpinning} maxDiscount={theme.maxDiscount}/>
       <Footer handleWheelClick={handleWheelClick}/>
       </Container>
     </GradientBackground>
@@ -34,12 +35,14 @@ export default function Gachapon() {
 }
 
 const GradientBackground = styled.div`
-  background: ${({ start, end }) => `linear-gradient(to right, ${start}, ${end})`};
+  background: ${({ start, end }) => `radial-gradient(circle, rgba(255, 255, 255, 0.05) 1%, ${start} 50%, ${end})`};
   height: 100vh;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items: center;
 `;
+
+
 
 const Container = styled.div`
   display: flex;
@@ -55,6 +58,6 @@ const GameTitle = styled.div`
   font-weight: 600;
   font-size: 2rem;
   color: white;
-  flex:0.5;
+  flex:2;
 `;
 

@@ -33,9 +33,10 @@ const Body = styled.div`
 
 
 const Button = styled.div`
-    background-color: orange;
-    padding: 0.5rem 2rem;
+    background-color: rgb(255,65,29);
+    padding: 0.8rem 2rem;
     font-weight: bold;
+    font-size:25px;
     color: white;
     border-radius: 8px; /* Optional for rounded corners */
     text-align: center;
