@@ -1,7 +1,9 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import { useSelector } from 'react-redux';
+export default function MaxDiscountLabel() {
+  const theme = useSelector((state) => state.gacha.theme);
 
-export default function MaxDiscountLabel({ maxDiscount }) {
   return (
     <>
       <SpinningLabel />
@@ -13,7 +15,7 @@ export default function MaxDiscountLabel({ maxDiscount }) {
             <div>TO</div>
           </div>
         </div>
-        <div className="percentageText">{maxDiscount}</div>
+        <div className="percentageText">{theme.maxDiscount}</div>
         <div className="offText">OFF</div>
       </Container>
     </>

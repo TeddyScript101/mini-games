@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function Footer({handleWheelClick}) {
   return (

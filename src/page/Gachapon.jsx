@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import MachineBody from '../component/gachapon/machineBody';
 import Footer from '../component/gachapon/Footer';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsSpinning, setTheme } from '../redux/gachaSlice'
+
+
 export default function Gachapon() {
-  const [theme, setTheme] = useState(null);
-  const [isSpinning, setIsSpinning] = useState(false);
+  const theme = useSelector((state) => state.gacha.theme);
+  const dispatch = useDispatch();
+
 
   const handleWheelClick = () => {
-    setIsSpinning(true);
-    setTimeout(() => setIsSpinning(false), 5000);
+    dispatch(setIsSpinning(true))
   };
 
 
   useEffect(() => {
-    setTheme({
+    dispatch(setTheme({
       background: { start: "#5C4033", end: "#3E2723" },
-      maxDiscount:"50%"
-    });
+      maxDiscount: "50%"
+    }));
   }, []);
 
   if (!theme?.background?.start || !theme?.background?.end) {
@@ -26,9 +30,9 @@ export default function Gachapon() {
   return (
     <GradientBackground start={theme.background.start} end={theme.background.end}>
       <Container>
-      <GameTitle>GACHAPON</GameTitle>
-      <MachineBody isSpinning={isSpinning} maxDiscount={theme.maxDiscount}/>
-      <Footer handleWheelClick={handleWheelClick}/>
+        <GameTitle>GACHAPON</GameTitle>
+        <MachineBody />
+        <Footer handleWheelClick={handleWheelClick} />
       </Container>
     </GradientBackground>
   );
