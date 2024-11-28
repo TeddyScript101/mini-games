@@ -1,14 +1,14 @@
-import React from 'react'
-import styled, { keyframes, css } from 'styled-components';
+import React from 'react';
+import styled, { keyframes } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { setShowCard,setShowFullScreen } from '../../redux/gachaSlice'
+import { setShowCard, setShowFullScreen } from '../../redux/gachaSlice';
 
 export default function CouponDisplay() {
     const showCard = useSelector((state) => state.gacha.showCard);
     const dispatch = useDispatch();
 
     const handleShowCard = () => {
-        dispatch(setShowCard(true))
+        dispatch(setShowCard(true));
     }
 
     const closeFullScreen = () => {
@@ -18,13 +18,89 @@ export default function CouponDisplay() {
     return (
         <Backdrop onClick={closeFullScreen}>
             {showCard &&
-                <WinCard>
-                    🎉 You won 10% off! 🎉
-                </WinCard>}
+                <FadeInZoomContainer>
+                    <WinCard>
+                        <div className='congrats'>Congratulations, Aldyssa!</div>
+                        <div className='discount'>You Won a coupon for 10% off</div>
+                        <div className='disclaimer'>T&Cs Apply: Valid until 29/07/2024 11pm</div>
+                    </WinCard>
+
+                    <CouponBtn>
+                        <div className="close-icon">×</div>
+                        <div className="button-text">VIEW COUPONS</div>
+                    </CouponBtn>
+                </FadeInZoomContainer>
+            }
+
             <FullScreenBall onAnimationEnd={handleShowCard} />
         </Backdrop>
-    )
+    );
 }
+
+const FadeInZoomContainer = styled.div`
+    animation: fadeInZoom 1s ease-in-out forwards;
+    z-index: 10000;
+       display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+
+`;
+
+const CouponBtn = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    color: white;
+    width: 500px;
+    height: 80px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 80px;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+
+    &:hover {
+        background-color: #1976D2; /* Darker blue on hover */
+    }
+
+    &:active {
+        background-color: #1565C0; /* Even darker blue on click */
+    }
+
+    .close-icon {
+        padding-left: 40px;
+        color: #2196F3;
+        font-size: 50px;
+    }
+
+    .button-text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 400px;
+        background-color: #2196F3; /* Blue color */
+        border-radius: 80px;
+        height: 80px;
+        font-size: 25px;
+    }
+
+    @keyframes fadeInZoom {
+        from {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+`;
+
 const shake = keyframes`
     0%, 100% {
         transform: translate(0, 0);
@@ -69,7 +145,7 @@ const FullScreenBall = styled.div`
     font-size: 24px;
     font-weight: bold;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    position:absolute;
+    position: absolute;
     animation: ${shake} 2s linear;
 `;
 
@@ -83,17 +159,19 @@ const Backdrop = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Ensures it appears above everything else */
+    flex-direction: column;
+    gap: 2rem;
+    z-index: 9999;
 `;
 
 const WinCard = styled.div`
-    width: 300px;
-    height: 300px;
+    width: 500px;
+    height: 500px;
     background-color: white;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     font-size: 1.5rem;
@@ -101,17 +179,11 @@ const WinCard = styled.div`
     color: #333;
     text-align: center;
     padding: 20px;
-    animation: fadeIn 0.5s ease-in-out forwards;
-    z-index:10000;
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: scale(0.9);
-        }
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
+
+    & .congrats {
+        font-size: 12px;
+    }
+    & .disclaimer {
+        font-size: 12px;
     }
 `;
-
