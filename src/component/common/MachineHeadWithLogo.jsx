@@ -10,7 +10,9 @@ export default function MachineHeadWithLogo({ bordered, img, children }) {
 }
 
 
-const Body = styled.div`
+const Body = styled.div.withConfig({
+    shouldForwardProp: (prop) => prop !== 'bordered',
+})`
     background: linear-gradient(180deg, rgba(251,240,211,0.98) 75%, rgba(255,255,255,1) 96%); 
     width: 88%;
     height: 6rem;

@@ -2,8 +2,8 @@ import React from 'react'
 import styled, { keyframes, css } from 'styled-components';
 import MaxDiscountLabel from '../common/MaxDiscountLabel'
 import { useSelector, useDispatch } from 'react-redux';
-import { setDroppedBall, setShowFullScreen, setShowCard } from '../../redux/gachaSlice'
-import CouponDisplay from './CouponDisplay'
+import { setGachaDroppedBall, setGachaShowFullScreen, setGachaShowCard } from '../../redux/gachaSlice'
+import CouponDisplay from '../common/CouponDisplay'
 import MachineHeadWithLogo from '../common/MachineHeadWithLogo'
 import { storeKey } from '../../const'
 export default function MachineBody() {
@@ -12,8 +12,8 @@ export default function MachineBody() {
     const dispatch = useDispatch();
 
     const handleDropComplete = () => {
-        dispatch(setDroppedBall(true));
-        setTimeout(() => dispatch(setShowFullScreen(true)), 1000);
+        dispatch(setGachaDroppedBall(true));
+        setTimeout(() => dispatch(setGachaShowFullScreen(true)), 1000);
     };
 
     return (
@@ -55,7 +55,7 @@ export default function MachineBody() {
                 </GachaCollectionArea>
             </GachaArea>
             {showFullScreen && (
-                <CouponDisplay />
+                <CouponDisplay storeKey={storeKey.gacha}/>
             )}
         </Body>
     )

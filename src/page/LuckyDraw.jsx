@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import MachineBody from '../component/luckyDraw/MachineBody';
 import { useSelector, useDispatch } from 'react-redux';
-import { setIsSpinning, setTheme } from '../redux/luckyDrawSlice'
+import { setLuckyDrawTheme } from '../redux/luckyDrawSlice'
 
 export default function LuckyDraw() {
     const theme = useSelector((state) => state.luckyDraw.theme);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setTheme({
+        dispatch(setLuckyDrawTheme({
             background: { start: "#5C4033", end: "#3E2723" },
             maxDiscount: "50%"
         }));

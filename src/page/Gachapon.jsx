@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import MachineBody from '../component/gachapon/machineBody';
+import MachineBody from '../component/gachapon/MachineBody';
 import Footer from '../component/gachapon/Footer';
 import { useSelector, useDispatch } from 'react-redux';
-import { setIsSpinning, setTheme } from '../redux/gachaSlice'
+import { setGachaIsSpinning, setGachaTheme } from '../redux/gachaSlice'
 
 
 export default function Gachapon() {
@@ -12,12 +12,12 @@ export default function Gachapon() {
 
 
   const handleWheelClick = () => {
-    dispatch(setIsSpinning(true))
+    dispatch(setGachaIsSpinning(true))
   };
 
 
   useEffect(() => {
-    dispatch(setTheme({
+    dispatch(setGachaTheme({
       background: { start: "#5C4033", end: "#3E2723" },
       maxDiscount: "50%"
     }));
