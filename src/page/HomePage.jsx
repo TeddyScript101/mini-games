@@ -9,6 +9,12 @@ export default function HomePage() {
       <div style={{ width: '500px', height: '300px' }}>
         <Lottie animationData={animation} loop={true} />
       </div>
+
+     <div id="animation-container">
+      {/* Placeholder for the animation */}
+    </div>
+
+
     </>
   )
 }

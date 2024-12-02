@@ -1,9 +1,8 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useSelector } from 'react-redux';
-export default function MaxDiscountLabel() {
-  const theme = useSelector((state) => state.gacha.theme);
-
+export default function MaxDiscountLabel({storeKey}) {
+  const theme = useSelector((state) => state[storeKey].theme);
   return (
     <>
       <SpinningLabel />

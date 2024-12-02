@@ -1,10 +1,11 @@
 import React from 'react'
 import styled, { keyframes, css } from 'styled-components';
-import MaxDiscountLabel from './MaxDiscountLabel'
+import MaxDiscountLabel from '../common/MaxDiscountLabel'
 import { useSelector, useDispatch } from 'react-redux';
 import { setDroppedBall, setShowFullScreen, setShowCard } from '../../redux/gachaSlice'
 import CouponDisplay from './CouponDisplay'
-
+import MachineHeadWithLogo from '../common/MachineHeadWithLogo'
+import { storeKey } from '../../const'
 export default function MachineBody() {
     const { isSpinning, droppedBall, showFullScreen } = useSelector((state) => state.gacha);
 
@@ -17,9 +18,8 @@ export default function MachineBody() {
 
     return (
         <Body>
-            <MachineHeadWithLogo>
-                <img src='https://hommdesserts.com.au/wp-content/uploads/2024/03/homm-dessert-at-heart-logo-plain-red.svg#383' alt='logo' />
-                <MaxDiscountLabel />
+            <MachineHeadWithLogo img='https://hommdesserts.com.au/wp-content/uploads/2024/03/homm-dessert-at-heart-logo-plain-red.svg#383'>
+                <MaxDiscountLabel storeKey={storeKey.gacha} />
             </MachineHeadWithLogo>
             <GachaArea start='#B0B0B0' end='#505050'>
                 <Window>
@@ -78,21 +78,6 @@ const Body = styled.div`
     flex-direction:column;
     align-items:center;
 `;
-
-const MachineHeadWithLogo = styled.div`
-background: linear-gradient(180deg, rgba(251,240,211,0.98) 75%, rgba(255,255,255,1) 96%); 
-    width:88%;
-    height:6rem;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    position:relative;
-
-    img{
-        height:90px;    
-    }
-`;
-
 
 const GachaArea = styled.div`
     background: ${({ start, end }) => `linear-gradient(to right, ${start}, ${end})`};
@@ -230,7 +215,7 @@ const Eclipse = styled.div`
 `;
 
 const Wheel = styled.div.withConfig({
-    shouldForwardProp: (prop) => prop !== 'isSpinning', 
+    shouldForwardProp: (prop) => prop !== 'isSpinning',
 })`
     position: absolute;
     background-color: white;
