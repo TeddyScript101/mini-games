@@ -1,13 +1,27 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import styled, { keyframes, css } from 'styled-components';
 import MaxDiscountLabel from '../common/MaxDiscountLabel'
 import { useSelector, useDispatch } from 'react-redux';
-import { setGachaDroppedBall, setGachaShowFullScreen, setGachaShowCard } from '../../redux/gachaSlice'
+import { setGachaDroppedBall, setGachaShowFullScreen } from '../../redux/gachaSlice'
 import CouponDisplay from '../common/CouponDisplay'
 import MachineHeadWithLogo from '../common/MachineHeadWithLogo'
 import { storeKey } from '../../const'
+import animation from '../../assets/Gachapon_code.json'
+
+import Lottie from 'lottie-react';
+
 export default function MachineBody() {
     const { isSpinning, droppedBall, showFullScreen } = useSelector((state) => state.gacha);
+
+    const lottieRef = useRef(null);
+
+    const handlePlay = () => {
+        lottieRef.current?.play();
+    };
+
+    useEffect(() => {
+        if (isSpinning) handlePlay()
+    }, [isSpinning])
 
     const dispatch = useDispatch();
 
@@ -23,18 +37,16 @@ export default function MachineBody() {
             </MachineHeadWithLogo>
             <GachaArea start='#B0B0B0' end='#505050'>
                 <Window>
-                    {BallPositionConfig.map(({ size, bottom, left, rotate, color }, index) => (
-                        <GachaBall
-                            key={index}
-                            size={size}
-                            bottom={bottom}
-                            left={left}
-                            rotate={rotate}
-                            color={color}
-                            isDropping={isSpinning && left === "232px"}
-                            onAnimationEnd={handleDropComplete}
-                        >DEAL</GachaBall>
-                    ))}
+                    <WindowAnimationContainer>
+                        <Lottie
+                            lottieRef={lottieRef}
+                            autoplay={false}
+                            animationData={animation}
+                            loop={false}
+                            initialSegment={[30, 100]}
+                            onComplete={handleDropComplete}
+                        />
+                    </WindowAnimationContainer>
                 </Window>
                 <InsertCoinsArea>
                     <Circle>
@@ -55,7 +67,7 @@ export default function MachineBody() {
                 </GachaCollectionArea>
             </GachaArea>
             {showFullScreen && (
-                <CouponDisplay storeKey={storeKey.gacha}/>
+                <CouponDisplay storeKey={storeKey.gacha} />
             )}
         </Body>
     )
@@ -70,6 +82,11 @@ const spin = keyframes`
         transform: rotate(90deg);
     }
 `;
+const WindowAnimationContainer = styled.div`
+    position:absolute;
+    scale:1.321;
+    top:-230px;   
+`;
 
 const Body = styled.div`
     flex:1;
@@ -82,7 +99,7 @@ const Body = styled.div`
 const GachaArea = styled.div`
     background: ${({ start, end }) => `linear-gradient(to right, ${start}, ${end})`};
     width:80%;
-    height:23rem;
+    height:21rem;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -171,7 +188,7 @@ const InsertCoinsArea = styled.div`
     width:40px;
     height:40px;
     background-color:brown;
-    bottom:100px;
+    bottom:80px;
     left:30px;
     display:flex;
     justify-content:center;
@@ -197,13 +214,12 @@ const ExchangeCoinsArea = styled.div`
     width:60px;
     height:25px;
     background-color:brown;
-    bottom:60px;
+    bottom:38px;
     left:20px;
     display:flex;
     justify-content:center;
     align-items:center;
 `
-
 const Eclipse = styled.div`
   position: absolute;
   bottom: ${({ bottom }) => `${bottom}`};  
@@ -222,7 +238,7 @@ const Wheel = styled.div.withConfig({
     border-radius: 50%;
     width: 80px;
     height: 80px;
-    bottom: 50px;
+    bottom: 40px;
     cursor: pointer;
     
     ${({ isSpinning }) =>
