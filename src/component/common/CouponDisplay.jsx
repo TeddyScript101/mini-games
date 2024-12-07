@@ -1,15 +1,16 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { 
-    setGachaShowCard, 
-    setGachaShowFullScreen 
+import {
+    setGachaShowCard,
+    setGachaShowFullScreen
 } from '../../redux/gachaSlice';
-import { 
-    setLuckyDrawShowCard, 
-    setLuckyDrawShowFullScreen 
+import {
+    setLuckyDrawShowCard,
+    setLuckyDrawShowFullScreen
 } from '../../redux/luckyDrawSlice';
 import { storeKey as storeKeyConst } from '../../const';
+import FullScreenBallWithImg from '../gachapon/FullScreenBall'
 
 export default function CouponDisplay({ storeKey }) {
     const dispatch = useDispatch();
@@ -56,8 +57,9 @@ export default function CouponDisplay({ storeKey }) {
             )}
 
             {storeKey === storeKeyConst.gacha && (
-                <FullScreenBall onAnimationEnd={handleShowCard} />
+                <FullScreenBallWithImg handleShowCard={handleShowCard} />
             )}
+
         </Backdrop>
     );
 }
