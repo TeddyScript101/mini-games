@@ -3,14 +3,14 @@ import styled, { keyframes, css } from 'styled-components';
 
 export default function FullScreenBallWithImg({ handleShowCard }) {
     const [startRiseUp, setStartRiseUp] = useState(false);
-    const [upperBallSrc, setUpperBallSrc] = useState('public/images/img_1.png');
+    const [upperBallSrc, setUpperBallSrc] = useState('/images/img_1.png');
 
     const handleShakeAnimationEnd = () => {
-        setStartRiseUp(true); // Start the riseUp animation
+        setStartRiseUp(true); 
     };
 
     const handleRiseUpAnimationEnd = () => {
-        setUpperBallSrc('public/images/img_0.png'); 
+        setUpperBallSrc('/images/img_0.png'); 
         handleShowCard();
     };
 
@@ -21,7 +21,7 @@ export default function FullScreenBallWithImg({ handleShowCard }) {
                 startRiseUp={startRiseUp}
                 onAnimationEnd={handleRiseUpAnimationEnd}
             />
-            <LowerBallClosed src="public/images/img_2.png" />
+            <LowerBallClosed src="/images/img_2.png" />
         </BallWrapper>
     );
 }
@@ -68,7 +68,10 @@ const riseUp = keyframes`
     }
 `;
 
-const UpperBallClosed = styled.img`
+const UpperBallClosed = styled.img.withConfig({
+    shouldForwardProp: (prop) => prop !== 'startRiseUp',
+
+})`
     width: 300px;
     z-index: 999;
     position: relative;

@@ -15,7 +15,6 @@ import FullScreenBallWithImg from '../gachapon/FullScreenBall'
 export default function CouponDisplay({ storeKey }) {
     const dispatch = useDispatch();
 
-    // Map storeKey to corresponding actions
     const actionMap = {
         [storeKeyConst.gacha]: {
             setShowCard: setGachaShowCard,

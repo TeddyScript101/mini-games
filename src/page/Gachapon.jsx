@@ -19,7 +19,8 @@ export default function Gachapon() {
   useEffect(() => {
     dispatch(setGachaTheme({
       background: { start: "#5C4033", end: "#3E2723" },
-      maxDiscount: "50%"
+      maxDiscount: "50%",
+      logo:"https://hommdesserts.com.au/wp-content/uploads/2024/03/homm-dessert-at-heart-logo-plain-red.svg#383"
     }));
   }, []);
 
