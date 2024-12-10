@@ -92,11 +92,11 @@ const CouponBtn = styled.div`
     z-index: 9999;
 
     &:hover {
-        background-color: #1976D2; /* Darker blue on hover */
+        background-color: #1976D2; 
     }
 
     &:active {
-        background-color: #1565C0; /* Even darker blue on click */
+        background-color: #1565C0;
     }
 
     .close-icon {
@@ -126,55 +126,45 @@ const CouponBtn = styled.div`
             transform: scale(1);
         }
     }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        width: 80%;
+        height: 60px;
+        font-size: 10px;
+
+        .close-icon {
+            font-size: 35px;
+            padding-left: 25px;
+        }
+
+        .button-text {
+            height: 60px;
+            width: 80%;
+            font-size: 18px;
+        }
+    }
+
+    /* Extra small screen responsiveness (e.g., for phones in portrait mode) */
+    @media (max-width: 480px) {
+        width: 80%;
+        height: 50px;
+        font-size: 8px;
+
+        .close-icon {
+            font-size: 40px;
+            padding-left: 20px;
+        }
+
+        .button-text {
+            height: 50px;
+            width:80%;
+            font-size: 16px;
+        }
+    }
 `;
 
-const shake = keyframes`
-    0%, 100% {
-        transform: translate(0, 0);
-    }
-    10% {
-        transform: translate(-15px, -5px);
-    }
-    20% {
-        transform: translate(15px, 5px);
-    }
-    30% {
-        transform: translate(-10px, 10px);
-    }
-    40% {
-        transform: translate(10px, -10px);
-    }
-    50% {
-        transform: translate(20px, 0);
-    }
-    60% {
-        transform: translate(-20px, 5px);
-    }
-    70% {
-        transform: translate(15px, -5px);
-    }
-    80% {
-        transform: translate(-15px, 10px);
-    }
-    90% {
-        transform: translate(10px, -10px);
-    }
-`;
 
-const FullScreenBall = styled.div`
-    width: 400px;
-    height: 400px;
-    background-color: #2196F3; /* Blue */
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    position: absolute;
-    animation: ${shake} 2s linear;
-`;
 
 const Backdrop = styled.div`
     position: fixed;
@@ -192,8 +182,8 @@ const Backdrop = styled.div`
 `;
 
 const WinCard = styled.div`
-    width: 500px;
-    height: 500px;
+    width: 100%;
+    aspect-ratio: 1/1;
     background-color: white;
     border-radius: 20px;
     display: flex;
