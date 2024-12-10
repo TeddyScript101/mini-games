@@ -61,7 +61,7 @@ const Container = styled.div`
 
 const GameTitle = styled.div`
   font-weight: 600;
-  font-size: 2rem;
+  font-size: 1rem;
   color: white;
   flex:2;
 `;

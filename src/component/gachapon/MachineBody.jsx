@@ -147,7 +147,7 @@ const InsertCoinsArea = styled.div`
     position:absolute;
     width:40px;
     height:40px;
-    background-color:brown;
+    background-color:#805E49;
     bottom:80px;
     left:30px;
     display:flex;
@@ -173,7 +173,7 @@ const ExchangeCoinsArea = styled.div`
     position:absolute;
     width:60px;
     height:25px;
-    background-color:brown;
+    background-color:#805E49;
     bottom:38px;
     left:20px;
     display:flex;
@@ -217,7 +217,10 @@ const GachaCollectionArea = styled.div`
   right: 10px;
   border-top-left-radius: 8px;  
   border-top-right-radius: 8px;  
-  outline: 1px solid red;         
+  border-top: 7px solid #6C1D08;
+  border-left: 3px solid #6C1D08;
+  border-right: 3px solid #6C1D08;
+  border-bottom: none;
 `;
 
 
