@@ -22,6 +22,17 @@ export default function Gachapon() {
       maxDiscount: "50%",
       logo:"https://hommdesserts.com.au/wp-content/uploads/2024/03/homm-dessert-at-heart-logo-plain-red.svg#383"
     }));
+
+    const metaTag = document.querySelector('meta[name="theme-color"]');
+    
+    if (metaTag) {
+      metaTag.setAttribute('content', '#493029');
+    } else {
+      const newMetaTag = document.createElement('meta');
+      newMetaTag.setAttribute('name', 'theme-color');
+      newMetaTag.setAttribute('content', '#493029');
+      document.head.appendChild(newMetaTag);
+    }
   }, []);
 
   if (!theme?.background?.start || !theme?.background?.end) {
