@@ -75,12 +75,12 @@ export default function MachineBody() {
             dispatch(setLuckyDrawHighlightedIndex(validIndices[currentIndex]))
             currentIndex = (currentIndex + 1) % validIndices.length;
             iteration++;
-        
-            
+
+
             const remainingIterations = randomStopIteration - iteration;
-        
+
             intervalTime = remainingIterations > 8 ? 50 : 400;
-        
+
             if (iteration >= randomStopIteration) {
                 setTimeout(() => {
                     dispatch(setLuckyDrawHighlightedIndex(validIndices[currentIndex]));
@@ -89,10 +89,10 @@ export default function MachineBody() {
                     dispatch(setLuckyDrawIsFinished(true));
                     setTimeout(() => dispatch(setLuckyDrawShowFullScreen(true)), 1000);
                 }, intervalTime);
-        
+
                 return;
             }
-        
+
             setTimeout(animate, intervalTime);
         };
 
@@ -115,7 +115,12 @@ export default function MachineBody() {
                             className={index === 4 ? 'goBtn' : ''}
                             onClick={index === 4 ? handleGoClick2 : undefined}
                         >
-                            {item.name}
+                            {item.img && <div>
+                                <img src={item.img} className={item.isEmpty ? 'emptyImg' : "cardImg"} />
+                            </div>}
+                            <div className='itemName'>
+                                {item.name}
+                            </div>
                         </Card>
                     ))}
                 </CardGrid>
@@ -157,6 +162,7 @@ const Card = styled.div.withConfig({
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction:column;
     background-color: #F9F3DE;
     border: 9px solid ${(props) => (props.highlighted ? '#FCC979' : '#B6542D')};
     border-radius: 16px;
@@ -164,6 +170,7 @@ const Card = styled.div.withConfig({
     color: brown;
     font-size: 16px;
     text-align: center;
+    overflow:hidden;
 
     &.goBtn {
         background-color: #F30003;
@@ -171,5 +178,12 @@ const Card = styled.div.withConfig({
         font-size: 20px;
         font-style: italic;
         cursor: pointer;
+    }
+    & .emptyImg{
+        height:80px;
+    }
+
+    & .cardImg{
+        height:40px;
     }
 `;

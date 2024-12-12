@@ -44,7 +44,7 @@ export default function CouponDisplay({ storeKey }) {
         <Backdrop onClick={closeFullScreen}>
             {showCard && (
                 <FadeInZoomContainer>
-                    <WinCard>
+                    <WinCard bgImage={result.img}>
                         <div className='congrats'>Congratulations, Aldyssa!</div>
                         <div className='discount'>You Won a {result.name}</div>
                         <div className='disclaimer'>T&Cs Apply: Valid until {format(result.validDate, 'dd/MM/yyyy h:mma')}</div>
@@ -116,7 +116,7 @@ const CouponBtn = styled.div`
         align-items: center;
         justify-content: center;
         width: 400px;
-        background-color: #2196F3; /* Blue color */
+        background-color: #2196F3;
         border-radius: 80px;
         height: 80px;
         font-size: 25px;
@@ -188,7 +188,10 @@ const Backdrop = styled.div`
 const WinCard = styled.div`
     width: 100%;
     aspect-ratio: 1/1;
-    background-color: white;
+    background-color: ${({ bgImage }) => (bgImage ? "transparent" : "white")};
+    background-image: ${({ bgImage }) => (bgImage ? `url(${bgImage})` : "none")};
+    background-size: cover;
+    background-position: center;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -197,9 +200,30 @@ const WinCard = styled.div`
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     font-size: 1.5rem;
     font-weight: bold;
-    color: #333;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     text-align: center;
     padding: 20px;
+    position: relative;
+    overflow: hidden;
+
+   
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+        border-radius: 20px;
+    }
+
+   
+    & > * {
+        z-index: 2;
+    }
 
     & .congrats {
         font-size: 12px;
@@ -208,3 +232,4 @@ const WinCard = styled.div`
         font-size: 12px;
     }
 `;
+
