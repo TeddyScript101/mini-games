@@ -11,6 +11,7 @@ import {
 } from '../../redux/luckyDrawSlice';
 import { storeKey as storeKeyConst } from '../../const';
 import FullScreenBallWithImg from '../gachapon/FullScreenBall'
+import { format } from 'date-fns';
 
 export default function CouponDisplay({ storeKey }) {
     const dispatch = useDispatch();
@@ -27,6 +28,7 @@ export default function CouponDisplay({ storeKey }) {
     };
 
     const showCard = useSelector((state) => state[storeKey]?.showCard);
+    let result = useSelector((state) => state[storeKey]?.result);
 
     const handleShowCard = () => {
         const action = actionMap[storeKey]?.setShowCard;
@@ -44,8 +46,8 @@ export default function CouponDisplay({ storeKey }) {
                 <FadeInZoomContainer>
                     <WinCard>
                         <div className='congrats'>Congratulations, Aldyssa!</div>
-                        <div className='discount'>You Won a coupon for 10% off</div>
-                        <div className='disclaimer'>T&Cs Apply: Valid until 29/07/2024 11pm</div>
+                        <div className='discount'>You Won a {result.name}</div>
+                        <div className='disclaimer'>T&Cs Apply: Valid until {format(result.validDate, 'dd/MM/yyyy h:mma')}</div>
                     </WinCard>
 
                     <CouponBtn>
@@ -67,11 +69,15 @@ export default function CouponDisplay({ storeKey }) {
 const FadeInZoomContainer = styled.div`
     animation: fadeInZoom 1s ease-in-out forwards;
     z-index: 10000;
-       display: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 2rem;
+
+    @media (max-width: 768px) {
+        width: 70%;
+    }
 
 `;
 
@@ -127,9 +133,8 @@ const CouponBtn = styled.div`
         }
     }
 
-    /* Mobile responsiveness */
     @media (max-width: 768px) {
-        width: 80%;
+        width:80%;
         height: 60px;
         font-size: 10px;
 
@@ -145,7 +150,6 @@ const CouponBtn = styled.div`
         }
     }
 
-    /* Extra small screen responsiveness (e.g., for phones in portrait mode) */
     @media (max-width: 480px) {
         width: 80%;
         height: 50px;

@@ -74,6 +74,6 @@ const GameTitle = styled.div`
   font-weight: 600;
   font-size: 1rem;
   color: white;
-  flex:2;
+  flex:1;
 `;
 

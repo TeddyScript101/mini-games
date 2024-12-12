@@ -5,35 +5,52 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setLuckyDrawTheme } from '../redux/luckyDrawSlice'
 
 export default function LuckyDraw() {
-    const theme = useSelector((state) => state.luckyDraw.theme);
-    const dispatch = useDispatch();
+  const theme = useSelector((state) => state.luckyDraw.theme);
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(setLuckyDrawTheme({
-            background: { start: "#5C4033", end: "#3E2723" },
-            maxDiscount: "50%"
-        }));
-    }, []);
+  useEffect(() => {
+    const luckyDrawItems = [
+      { id: 0, name: 'Free Monchi', validDate: new Date().toISOString() },
+      { id: 1, name: '50% OFF', validDate: new Date().toISOString() },
+      { id: 2, name: 'Free Monchi', validDate: new Date().toISOString() },
+      { id: 3, name: '50% OFF', validDate: new Date().toISOString() },
+      { id: 4, name: '50% OFF', validDate: new Date().toISOString() },
+      { id: 5, name: 'Free Monchi', validDate: new Date().toISOString() },
+      { id: 6, name: '50% OFF', validDate: new Date().toISOString()},
+      { id: 7, name: 'Free Monchi', validDate: new Date().toISOString() },
+    ]
 
-    if (!theme?.background?.start || !theme?.background?.end) {
-        return null;
-    }
+    const goItem = { id: 999, name: 'GO!' };
+    luckyDrawItems.splice(4, 0, goItem);
 
-    return (
-        <Background start={theme.background.start} end={theme.background.end}>
-            <Container>
-                <GameTitle>GACHAPON</GameTitle>
-                <MachineBody />
-                <Footer>
-                    <MovingBanner>
-                        <BannerText>
-                            NEW BRAND NEW BRAND NEW BRAND NEW BRAND NEW BRAND      
-                        </BannerText>
-                    </MovingBanner>
-                </Footer>
-            </Container>
-        </Background>
-    );
+
+    dispatch(setLuckyDrawTheme({
+      background: { start: "#5C4033", end: "#3E2723" },
+      maxDiscount: "50%",
+      logo: "https://hommdesserts.com.au/wp-content/uploads/2024/03/homm-dessert-at-heart-logo-plain-red.svg#383",
+      luckyDrawItems
+    }));
+  }, []);
+
+  if (!theme?.background?.start || !theme?.background?.end) {
+    return null;
+  }
+
+  return (
+    <Background start={theme.background.start} end={theme.background.end}>
+      <Container>
+        <GameTitle>GACHAPON</GameTitle>
+        <MachineBody />
+        <Footer>
+          <MovingBanner>
+            <BannerText>
+              NEW BRAND NEW BRAND NEW BRAND NEW BRAND NEW BRAND
+            </BannerText>
+          </MovingBanner>
+        </Footer>
+      </Container>
+    </Background>
+  );
 }
 
 const Background = styled.div`
@@ -56,15 +73,16 @@ const Container = styled.div`
 
 const GameTitle = styled.div`
   font-weight: 600;
-  font-size: 2rem;
+  font-size: 1rem;
   color: white;
-  flex: 2;
+  flex: 1;
 `;
 
 const Footer = styled.div`
   flex: 1;
   display: flex;
-  align-items: center;
+  padding-top: 30px;
+  align-items: start;
   width: 100%;
 `;
 
@@ -74,26 +92,26 @@ const MovingBanner = styled.div`
   width: 100%;
   height: 30px;
   font-size: 25px;
-  overflow: hidden;  /* Hide content that is outside the container */
+  overflow: hidden;  
   position: relative;
 `;
 
 
 const moveBanner = keyframes`
   0% {
-    transform: translateX(100%); /* Start the text from the right */
+    transform: translateX(100%); 
   }
   100% {
-    transform: translateX(-100%); /* Move the text to the left */
+    transform: translateX(-100%);
   }
 `;
 
 const BannerText = styled.div`
   display: inline-block;
   position: absolute;
-  white-space: nowrap; /* Ensures the text doesn't wrap */
-  animation: ${moveBanner} 10s linear infinite; /* Adjust timing as needed */
-  width: max-content; /* Ensures the width fits the content without excess space */
+  white-space: nowrap;
+  animation: ${moveBanner} 10s linear infinite;
+  width: max-content;
 `;
 
 

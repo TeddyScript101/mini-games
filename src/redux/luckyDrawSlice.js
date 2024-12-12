@@ -4,20 +4,16 @@ const luckyDrawSlice = createSlice({
     name: 'luckyDraw',
     initialState: {
         theme: null,
-        isSpinning: false,
-        droppedBall: false,
         showFullScreen: false,
-        showCard: true
+        showCard: true,
+        isRunning: false,
+        highlightedIndex: null,
+        result: null,
+        isFinished:false
     },
     reducers: {
         setLuckyDrawTheme: (state, action) => {
             state.theme = action.payload;
-        },
-        setLuckyDrawIsSpinning: (state, action) => {
-            state.isSpinning = action.payload;
-        },
-        setLuckyDrawDroppedBall: (state, action) => {
-            state.droppedBall = action.payload;
         },
         setLuckyDrawShowFullScreen: (state, action) => {
             state.showFullScreen = action.payload;
@@ -25,15 +21,30 @@ const luckyDrawSlice = createSlice({
         setLuckyDrawShowCard: (state, action) => {
             state.showCard = action.payload;
         },
+        setLuckyDrawRunning: (state, action) => {
+            state.isRunning = action.payload;
+        },
+        setLuckyDrawHighlightedIndex: (state, action) => {
+            state.highlightedIndex = action.payload;
+        },
+        setLuckyDrawResult: (state, action) => {
+            state.result = action.payload;
+        },
+        setLuckyDrawIsFinished: (state, action) => {
+            state.isFinished = action.payload;
+        },
+        
     },
 });
 
 export const {
     setLuckyDrawTheme,
-    setLuckyDrawIsSpinning,
-    setLuckyDrawDroppedBall,
     setLuckyDrawShowFullScreen,
     setLuckyDrawShowCard,
+    setLuckyDrawRunning,
+    setLuckyDrawHighlightedIndex,
+    setLuckyDrawResult,
+    setLuckyDrawIsFinished
 } = luckyDrawSlice.actions;
 
 export default luckyDrawSlice.reducer;

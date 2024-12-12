@@ -1,36 +1,36 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import { useSelector } from 'react-redux';
 
 export default function DecorationBalls() {
-    const balls = [...Array(40)]; // Total of 41 balls (10 per side plus 1 extra for the bottom)
-
+    const balls = [...Array(41)];
+    const { isRunning, isFinished } = useSelector((state) => state.luckyDraw);
     return (
         <>
             <BallTrackTop>
-                {balls.slice(0, 10).map((_, index) => (
-                    <Ball key={index} index={index} />
+                {balls.slice(0, 11).map((_, index) => (
+                    <Ball key={index} index={index} isRunning={isRunning} isFinished={isFinished} />
                 ))}
             </BallTrackTop>
             <BallTrackLeft>
-                {balls.slice(10, 20).map((_, index) => (
-                    <Ball key={index + 9} index={index + 9} />
+                {balls.slice(11, 21).map((_, index) => (
+                    <Ball key={index + 11} index={index + 11} isRunning={isRunning} isFinished={isFinished} />
                 ))}
             </BallTrackLeft>
             <BallTrackRight>
-                {balls.slice(20, 30).map((_, index) => (
-                    <Ball key={index + 18} index={index + 18} />
+                {balls.slice(21, 30).map((_, index) => (
+                    <Ball key={index + 21} index={index + 21} isRunning={isRunning} isFinished={isFinished} />
                 ))}
             </BallTrackRight>
             <BallTrackBottom>
-                {balls.slice(30, 40).map((_, index) => (
-                    <Ball key={index + 27} index={index + 27} />
+                {balls.slice(31, 41).map((_, index) => (
+                    <Ball key={index + 31} index={index + 31} isRunning={isRunning} isFinished={isFinished} />
                 ))}
             </BallTrackBottom>
         </>
     );
 }
 
-// Keyframe animation for color shift
 const changeColor = keyframes`
     0%, 100% {
         background-color: #FCE8C4;
@@ -40,56 +40,61 @@ const changeColor = keyframes`
     }
 `;
 
-const Ball = styled.div`
+const Ball = styled.div.withConfig({
+    shouldForwardProp: (prop) => prop !== 'isRunning' && prop !== 'isFinished'
+})`
     width: 22px;
     height: 22px;
     border-radius: 50%;
     background-color: ${(props) =>
         props.index % 2 === 0 ? '#FCE8C4' : '#FAC980'};
-    animation: ${changeColor} 3s infinite;
-    animation-delay: ${(props) => `${props.index * 0.1}s`}; /* Delayed animation for anti-clockwise effect */
+    animation: ${changeColor} ${(props) =>
+        props.isFinished ? '0.5s' :
+        (props.isRunning ? '1s' : '3s')
+    } infinite steps(1);    animation-delay: ${(props) => props.isFinished ? '0s' : `${(props.index % 2) * 1.5}s`};
 `;
+
 
 const BallTrackTop = styled.div`
     top: 8px;
     left: 8px;
     position: absolute;
-    width: 370px; /* Adjusted width for 10 balls */
+    width: 370px;
     height: 30px;
     display: flex;
-    gap: 15.5px;
+    gap: 13px;
 `;
 
 const BallTrackLeft = styled.div`
-    top: 4px;
+    top: 40px;
     left: 8px;
     position: absolute;
     width: 30px;
-    height: 370px; /* Adjusted height for 10 balls */
+    height: 370px;
     display: flex;
     flex-direction: column;
-    gap: 15.5px;
+    gap: 13px;
     padding-top: 3px;
 `;
 
 const BallTrackBottom = styled.div`
     bottom: 0px;
-    left: 10px;
+    left: 43px;
     position: absolute;
-    width: 410px; /* Increased width to accommodate extra ball */
+    width: 410px;
     height: 30px;
     display: flex;
-    gap: 20px; 
+    gap: 12.5px;
 `;
 
 const BallTrackRight = styled.div`
-    top: -30px;
-    right: -2px;
+    top: 0px;
+    right: 3px;
     position: absolute;
     width: 30px;
-    height: 370px; /* Adjusted height for 10 balls */
+    height: 370px;
     display: flex;
     flex-direction: column;
-    gap: 15.5px;
+    gap: 14px;
     padding-top: 40px;
 `;

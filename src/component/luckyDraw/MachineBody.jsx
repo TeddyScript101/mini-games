@@ -1,60 +1,127 @@
-import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import styled from 'styled-components';
 import MachineHeadWithLogo from '../common/MachineHeadWithLogo';
 import MaxDiscountLabel from '../common/MaxDiscountLabel';
 import { storeKey } from '../../const';
 import DecorationBalls from './DecorationBalls';
-import CouponDisplay from '../common/CouponDisplay'; // Import CouponDisplay
+import CouponDisplay from '../common/CouponDisplay';
+import {
+    setLuckyDrawRunning,
+    setLuckyDrawHighlightedIndex,
+    setLuckyDrawShowFullScreen,
+    setLuckyDrawResult,
+    setLuckyDrawIsFinished
+} from '../../redux/luckyDrawSlice';
 
 export default function MachineBody() {
-    const [highlightedIndex, setHighlightedIndex] = useState(null);
-    const [isRunning, setIsRunning] = useState(false);
-    const [showFullScreen, setShowFullScreen] = useState(false); // Add showFullScreen state
+    const dispatch = useDispatch();
+
+    const {
+        isRunning,
+        highlightedIndex,
+        showFullScreen,
+        theme
+    } = useSelector((state) => state.luckyDraw);
 
     const handleGoClick = () => {
-        if (isRunning) return; 
-        setIsRunning(true);
-        setShowFullScreen(false); // Reset showFullScreen before starting
+        if (isRunning) return;
+
+        dispatch(setLuckyDrawRunning(true));
+        dispatch(setLuckyDrawShowFullScreen(false));
+
         let count = 0;
-    
-        const interval = setInterval(() => {
-            const validIndices = [0, 1, 2, 3, 5, 6, 7, 8];
+        let intervalTime = 100;
+        const validIndices = [0, 1, 2, 3, 5, 6, 7, 8];
+        let interval;
+
+        const animate = () => {
             const randomIndex = validIndices[Math.floor(Math.random() * validIndices.length)];
-            setHighlightedIndex(randomIndex);
+            dispatch(setLuckyDrawHighlightedIndex(randomIndex));
             count++;
-    
-            if (count >= 10) {
+
+            if (count >= 15) {
                 clearInterval(interval);
-                setHighlightedIndex(null); 
-                setIsRunning(false);
-                setShowFullScreen(true); // Show the full-screen coupon after animation
+                dispatch(setLuckyDrawHighlightedIndex(null));
+                dispatch(setLuckyDrawResult(theme.luckyDrawItems[validIndices[randomIndex]]))
+                dispatch(setLuckyDrawRunning(false));
+                dispatch(setLuckyDrawIsFinished(true));
+
+                setTimeout(() => dispatch(setLuckyDrawShowFullScreen(true)), 1000)
+                return;
             }
-        }, 300); 
+            intervalTime += 50;
+            clearInterval(interval);
+            interval = setInterval(animate, intervalTime);
+        };
+
+        interval = setInterval(animate, intervalTime);
+    };
+
+
+    const handleGoClick2 = () => {
+        if (isRunning) return;
+
+        dispatch(setLuckyDrawRunning(true));
+        dispatch(setLuckyDrawShowFullScreen(false));
+
+        const validIndices = [0, 1, 2, 5, 8, 7, 6, 3];
+        let currentIndex = 0;
+        let intervalTime = 100;
+        const randomStopIteration = Math.floor(Math.random() * 11) + 15;
+        let iteration = 0;
+
+        const animate = () => {
+            dispatch(setLuckyDrawHighlightedIndex(validIndices[currentIndex]))
+            currentIndex = (currentIndex + 1) % validIndices.length;
+            iteration++;
+        
+            
+            const remainingIterations = randomStopIteration - iteration;
+        
+            intervalTime = remainingIterations > 8 ? 50 : 400;
+        
+            if (iteration >= randomStopIteration) {
+                setTimeout(() => {
+                    dispatch(setLuckyDrawHighlightedIndex(validIndices[currentIndex]));
+                    dispatch(setLuckyDrawResult(theme.luckyDrawItems[validIndices[currentIndex]]));
+                    dispatch(setLuckyDrawRunning(false));
+                    dispatch(setLuckyDrawIsFinished(true));
+                    setTimeout(() => dispatch(setLuckyDrawShowFullScreen(true)), 1000);
+                }, intervalTime);
+        
+                return;
+            }
+        
+            setTimeout(animate, intervalTime);
+        };
+
+        animate();
     };
 
     return (
         <>
-            <MachineHeadWithLogo img='https://hommdesserts.com.au/wp-content/uploads/2024/03/homm-dessert-at-heart-logo-plain-red.svg#383' bordered>
+            <MachineHeadWithLogo img={theme.logo} bordered>
                 <MaxDiscountLabel storeKey={storeKey.luckyDraw} />
             </MachineHeadWithLogo>
             <LuckyDrawContainer>
 
                 <DecorationBalls />
                 <CardGrid>
-                    {Array.from({ length: 9 }).map((_, index) => (
+                    {theme.luckyDrawItems.map((item, index) => (
                         <Card
                             key={index}
                             highlighted={index === highlightedIndex}
                             className={index === 4 ? 'goBtn' : ''}
-                            onClick={index === 4 ? handleGoClick : undefined}
+                            onClick={index === 4 ? handleGoClick2 : undefined}
                         >
-                            {index === 4 ? 'GO!' : index % 2 === 0 ? 'FREE MOCHI' : '50% OFF'}
+                            {item.name}
                         </Card>
                     ))}
                 </CardGrid>
             </LuckyDrawContainer>
             {showFullScreen && (
-                <CouponDisplay storeKey={storeKey.luckyDraw} /> 
+                <CouponDisplay storeKey={storeKey.luckyDraw} />
             )}
         </>
     );
