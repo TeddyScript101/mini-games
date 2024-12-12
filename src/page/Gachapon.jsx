@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import MachineBody from '../component/gachapon/MachineBody';
 import Footer from '../component/gachapon/Footer';
 import { useSelector, useDispatch } from 'react-redux';
-import { setGachaIsSpinning, setGachaTheme } from '../redux/gachaSlice'
+import { setGachaIsSpinning, setGachaTheme, setGachaResult } from '../redux/gachaSlice'
 
 
 export default function Gachapon() {
@@ -13,6 +13,8 @@ export default function Gachapon() {
 
   const handleWheelClick = () => {
     dispatch(setGachaIsSpinning(true))
+    //TODO: add api fetch to get result 
+    dispatch(setGachaResult({ name: "10% off discount coupon", validDate: new Date().toISOString() }))
   };
 
 
@@ -20,11 +22,11 @@ export default function Gachapon() {
     dispatch(setGachaTheme({
       background: { start: "#5C4033", end: "#3E2723" },
       maxDiscount: "50%",
-      logo:"https://hommdesserts.com.au/wp-content/uploads/2024/03/homm-dessert-at-heart-logo-plain-red.svg#383"
+      logo: "https://hommdesserts.com.au/wp-content/uploads/2024/03/homm-dessert-at-heart-logo-plain-red.svg#383"
     }));
 
     const metaTag = document.querySelector('meta[name="theme-color"]');
-    
+
     if (metaTag) {
       metaTag.setAttribute('content', '#493029');
     } else {

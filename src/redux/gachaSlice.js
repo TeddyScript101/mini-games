@@ -7,7 +7,8 @@ const gachaSlice = createSlice({
         isSpinning: false,
         droppedBall: false,
         showFullScreen: false,
-        showCard: false
+        showCard: false,
+        result: null
     },
     reducers: {
         setGachaTheme: (state, action) => {
@@ -25,6 +26,9 @@ const gachaSlice = createSlice({
         setGachaShowCard: (state, action) => {
             state.showCard = action.payload;
         },
+        setGachaResult: (state, action) => {
+            state.result = action.payload;
+        },
     },
 });
 
@@ -33,7 +37,8 @@ export const {
     setGachaIsSpinning,
     setGachaDroppedBall,
     setGachaShowFullScreen,
-    setGachaShowCard,
+    setGachaShowCard, 
+    setGachaResult
 } = gachaSlice.actions;
 
 export default gachaSlice.reducer;
