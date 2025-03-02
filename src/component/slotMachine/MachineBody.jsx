@@ -15,7 +15,6 @@ export default function MachineBody() {
         if (result) dispatch(setSlotMachineShowFullScreen(true))
     }
 
-    console.log({ result, debug: theme.stopYArray, showFullScreen })
     return (
         <>
             <MachineHeadWithLogo img={theme.machineLogo} storeKey={storeKeyEnum.slotMachine}>
