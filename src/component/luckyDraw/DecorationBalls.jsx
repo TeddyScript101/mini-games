@@ -2,9 +2,9 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useSelector } from 'react-redux';
 
-export default function DecorationBalls() {
+export default function DecorationBalls({storeKey}) {
     const balls = [...Array(41)];
-    const { isRunning, isFinished } = useSelector((state) => state.luckyDraw);
+    const { isRunning, isFinished } = useSelector((state) => state[storeKey]);
     return (
         <>
             <BallTrackTop>

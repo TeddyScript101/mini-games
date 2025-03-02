@@ -9,7 +9,11 @@ import {
     setLuckyDrawShowCard,
     setLuckyDrawShowFullScreen
 } from '../../redux/luckyDrawSlice';
-import { storeKey as storeKeyConst } from '../../const';
+import {
+    setSlotMachineShowCard,
+    setSlotMachineShowFullScreen
+} from '../../redux/slotMachineSlice';
+import { storeKeyEnum } from '../../const';
 import FullScreenBallWithImg from '../gachapon/FullScreenBall'
 import { format } from 'date-fns';
 
@@ -17,14 +21,18 @@ export default function CouponDisplay({ storeKey }) {
     const dispatch = useDispatch();
 
     const actionMap = {
-        [storeKeyConst.gacha]: {
+        [storeKeyEnum.gacha]: {
             setShowCard: setGachaShowCard,
             setShowFullScreen: setGachaShowFullScreen,
         },
-        [storeKeyConst.luckyDraw]: {
+        [storeKeyEnum.luckyDraw]: {
             setShowCard: setLuckyDrawShowCard,
             setShowFullScreen: setLuckyDrawShowFullScreen,
         },
+        [storeKeyEnum.slotMachine]: {
+            setShowCard: setSlotMachineShowCard,
+            setShowFullScreen: setSlotMachineShowFullScreen,
+        }
     };
 
     const showCard = useSelector((state) => state[storeKey]?.showCard);
@@ -43,21 +51,26 @@ export default function CouponDisplay({ storeKey }) {
     return (
         <Backdrop onClick={closeFullScreen}>
             {showCard && (
-                <FadeInZoomContainer>
+                <FadeInZoomContainer className="visible">
                     <WinCard bgImage={result.img}>
-                        <div className='congrats'>Congratulations, Aldyssa!</div>
-                        <div className='discount'>You Won a {result.name}</div>
-                        <div className='disclaimer'>T&Cs Apply: Valid until {format(result.validDate, 'dd/MM/yyyy h:mma')}</div>
+                        {!result.isEmpty && <div className='congrats'>Congratulations, Aldyssa!</div>}
+                        <div className='discount'>
+                            {!result.isEmpty ? `You Won a ${result.name}` : result.name}
+                        </div>
+                        {result.validDate && <div className='disclaimer'>T&Cs Apply: Valid until {format(result.validDate, 'dd/MM/yyyy h:mma')}</div>}
                     </WinCard>
 
-                    <CouponBtn>
-                        <div className="close-icon">×</div>
-                        <div className="button-text">VIEW COUPONS</div>
-                    </CouponBtn>
+                    {!result.isEmpty && (
+                        <CouponBtn>
+                            <div className="close-icon">×</div>
+                            <div className="button-text">VIEW COUPONS</div>
+                        </CouponBtn>
+                    )}
                 </FadeInZoomContainer>
             )}
 
-            {storeKey === storeKeyConst.gacha && (
+
+            {storeKey === storeKeyEnum.gacha && (
                 <FullScreenBallWithImg handleShowCard={handleShowCard} />
             )}
 
@@ -74,11 +87,27 @@ const FadeInZoomContainer = styled.div`
     align-items: center;
     flex-direction: column;
     gap: 2rem;
+    opacity: 0;  // Ensure animation starts from 0 opacity
+
+    @keyframes fadeInZoom {
+        from {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    &.visible {
+        opacity: 1;
+        animation: fadeInZoom 1s ease-in-out forwards;
+    }
 
     @media (max-width: 768px) {
         width: 70%;
     }
-
 `;
 
 const CouponBtn = styled.div`
@@ -185,9 +214,11 @@ const Backdrop = styled.div`
     z-index: 9999;
 `;
 
-const WinCard = styled.div`
-    width: 100%;
-    aspect-ratio: 1/1;
+const WinCard = styled.div.withConfig({
+    shouldForwardProp: (prop) => prop !== 'bgImage',
+})`
+    width: 500px; 
+    height: 500px; 
     background-color: ${({ bgImage }) => (bgImage ? "transparent" : "white")};
     background-image: ${({ bgImage }) => (bgImage ? `url(${bgImage})` : "none")};
     background-size: cover;
@@ -195,7 +226,7 @@ const WinCard = styled.div`
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     font-size: 1.5rem;
@@ -207,7 +238,6 @@ const WinCard = styled.div`
     position: relative;
     overflow: hidden;
 
-   
     &::before {
         content: "";
         position: absolute;
@@ -220,16 +250,24 @@ const WinCard = styled.div`
         border-radius: 20px;
     }
 
-   
     & > * {
         z-index: 2;
     }
 
-    & .congrats {
-        font-size: 12px;
+    & .congrats, & .disclaimer, & .discount {
+        font-size: 14px;
+        text-align: center;
     }
-    & .disclaimer {
-        font-size: 12px;
+
+    @media (max-width: 768px) {
+        width: 250px;
+        height: 250px;
+    }
+
+    @media (max-width: 480px) {
+        width: 200px;
+        height: 200px;
     }
 `;
+
 

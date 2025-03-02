@@ -1,16 +1,15 @@
 import React, { useRef, useEffect } from 'react'
 import styled, { keyframes, css } from 'styled-components';
-import MaxDiscountLabel from '../common/MaxDiscountLabel'
 import { useSelector, useDispatch } from 'react-redux';
 import { setGachaDroppedBall, setGachaShowFullScreen } from '../../redux/gachaSlice'
 import CouponDisplay from '../common/CouponDisplay'
 import MachineHeadWithLogo from '../common/MachineHeadWithLogo'
-import { storeKey } from '../../const'
+import { storeKeyEnum } from '../../const'
 import screen from '../../assets/screen.json'
 import Lottie from 'lottie-react';
 
 export default function MachineBody() {
-    const { theme, isSpinning, droppedBall, showFullScreen } = useSelector((state) => state.gacha);
+    const { theme, isRunning, droppedBall, showFullScreen } = useSelector((state) => state[storeKeyEnum.gacha]);
 
     const lottieRef = useRef(null);
 
@@ -19,8 +18,8 @@ export default function MachineBody() {
     };
 
     useEffect(() => {
-        if (isSpinning) handlePlay()
-    }, [isSpinning])
+        if (isRunning) handlePlay()
+    }, [isRunning])
 
     const dispatch = useDispatch();
 
@@ -31,8 +30,8 @@ export default function MachineBody() {
 
     return (
         <Body>
-            <MachineHeadWithLogo img={theme.logo}>
-                <MaxDiscountLabel storeKey={storeKey.gacha} />
+            <MachineHeadWithLogo img={theme.machineLogo}>
+                {/* <MaxDiscountLabel storeKey={storeKeyEnum.gacha} /> */}
             </MachineHeadWithLogo>
             <GachaArea start='#B0B0B0' end='#505050'>
                 <Window>
@@ -56,7 +55,7 @@ export default function MachineBody() {
                     <Eclipse bottom='4px' />
                     <Eclipse bottom='14px' />
                 </ExchangeCoinsArea>
-                <Wheel isSpinning={isSpinning} src='/images/wheel.png' alt='wheel'>
+                <Wheel isRunning={isRunning} src='/images/wheel.png' alt='wheel'>
                 </Wheel>
                 <GachaCollectionArea>
                     {droppedBall && <DroppedBall src='/images/img_9.png' />}
@@ -64,7 +63,7 @@ export default function MachineBody() {
 
             </GachaArea>
             {showFullScreen && (
-                <CouponDisplay storeKey={storeKey.gacha} />
+                <CouponDisplay storeKey={storeKeyEnum.gacha} />
             )}
         </Body>
     )
@@ -191,7 +190,7 @@ const Eclipse = styled.div`
 `;
 
 const Wheel = styled.img.withConfig({
-    shouldForwardProp: (prop) => prop !== 'isSpinning',
+    shouldForwardProp: (prop) => prop !== 'isRunning',
 })`
     position: absolute;
     border-radius: 50%;
@@ -200,8 +199,8 @@ const Wheel = styled.img.withConfig({
     bottom: 25px;
     cursor: pointer;
     
-    ${({ isSpinning }) =>
-        isSpinning &&
+    ${({ isRunning }) =>
+        isRunning &&
         css`
         animation: ${spin} 1s linear forwards;
       `}

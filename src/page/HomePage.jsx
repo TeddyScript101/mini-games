@@ -4,12 +4,19 @@ import styled from 'styled-components';
 
 
 const HomePage = () => {
+  const demoKeySet = {
+    gachapon: "gachaponDemo",
+    luckyDraw: "luckyDrawDemo",
+    slotMachine: "slotMachineDemo"
+  }
+
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
       <h1>Welcome to the Home Page</h1>
       <div>
-        <NavButton to="/gachapon">Go to Gachapon</NavButton>
-        <NavButton to="/luckyDraw">Go to Lucky Draw</NavButton>
+        <NavButton to={`/gachapon?key=${demoKeySet.gachapon}`}>Go to Gachapon</NavButton>
+        <NavButton to={`/luckyDraw?key=${demoKeySet.luckyDraw}`}>Go to Lucky Draw</NavButton>
+        <NavButton to={`/slotMachine?key=${demoKeySet.slotMachine}`}>Go to Slot Machine</NavButton>
       </div>
     </div>
   );
